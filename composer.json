@@ -1,0 +1,21 @@
+{
+    "name": "hotdeals/magento2-feed",
+    "version": "1.0.0",
+    "description": "HotDeals Feed Module",
+    "type": "magento2-module",
+    "require": {
+        "magento/framework": "^104.0",
+        "magento/module-catalog": "^103.0"
+    },
+    "license": [
+        "Open Software License (OSL)"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "HotDeals\\Feed\\": ""
+        }
+    }
+}
