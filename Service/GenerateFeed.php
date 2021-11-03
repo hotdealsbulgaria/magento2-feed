@@ -14,7 +14,9 @@ use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Catalog\Helper\ImageFactory;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
+use Magento\Catalog\Model\Product\Visibility;
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory as ProductCollectionFactory;
+use Magento\CatalogInventory\Api\StockRegistryInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Data\Collection;
 use Magento\Framework\Exception\FileSystemException;
@@ -40,52 +42,53 @@ class GenerateFeed
     public const IMAGE_WIDTH = 1000;
 
     public const IMAGE_HEIGHT = 1000;
+
     /**
      * Categories Collection
      *
      * @var \Magento\Catalog\Model\CategoryFactory
      */
     protected $category;
+
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
      */
     private $storeManager;
+
     /**
      * @var \HotDeals\Feed\Helper\Data
      */
     private $helper;
+
     /**
      * @var \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory
      */
     private $productCollection;
+
     /**
      * @var \Magento\Catalog\Model\Product\Attribute\Source\Status
      */
     private $productStatus;
-    /**
-     * @var \Magento\InventorySalesApi\Api\StockResolverInterface
-     */
-    private $stockResolver;
-    /**
-     * @var \Magento\InventorySalesApi\Api\AreProductsSalableInterface
-     */
-    private $areProductsSalable;
+
     /**
      * @var \Magento\Framework\Filesystem
      */
     private Filesystem $filesystem;
+
     /**
      * @var \Magento\Framework\Filesystem\Io\File
      */
     private $file;
+
     /**
      * @var ProgressBar
      */
     private ProgressBar $progressBar;
+
     /**
-     * @var array
+     * @var StockRegistryInterface
      */
-    private array $stockId;
+    private $stockRegistry;
 
     /**
      * @var \Magento\Framework\Serialize\Serializer\Json
@@ -95,34 +98,29 @@ class GenerateFeed
     /**
      * @var \Magento\Catalog\Model\Product\Visibility
      */
-    private \Magento\Catalog\Model\Product\Visibility $productVisibility;
+    private Visibility $productVisibility;
 
     /**
      * Product Feed constructor.
      *
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param Helper $helper
      * @param ProductCollectionFactory $productCollectionFactory
      * @param ProductStatus $productStatus
      * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
-     * @param \Magento\Catalog\Helper\ImageFactory $imageFactory
-     * @param \Magento\InventorySalesApi\Api\StockResolverInterface $stockResolver
-     * @param \Magento\InventorySalesApi\Api\AreProductsSalableInterface $areProductsSalable
      * @param \Magento\Framework\Filesystem $filesystem
      * @param File $file
      * @param \Magento\Framework\Serialize\Serializer\Json $json
-     * @param Helper $helper
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         StoreManagerInterface $storeManager,
+        StockRegistryInterface $stockRegistry,
         ProductCollectionFactory $productCollectionFactory,
         ProductStatus $productStatus,
-        \Magento\Catalog\Model\Product\Visibility $productVisibility,
+        Visibility $productVisibility,
         CategoryFactory $categoryFactory,
-        ImageFactory $imageFactory,
-        StockResolverInterface $stockResolver,
-        AreProductsSalableInterface $areProductsSalable,
         Filesystem $filesystem,
         File $file,
         Json $json,
@@ -132,10 +130,8 @@ class GenerateFeed
         $this->productCollection = $productCollectionFactory;
         $this->productStatus = $productStatus;
         $this->productVisibility = $productVisibility;
+        $this->stockRegistry = $stockRegistry;
         $this->category = $categoryFactory;
-        $this->image = $imageFactory;
-        $this->stockResolver = $stockResolver;
-        $this->areProductsSalable = $areProductsSalable;
         $this->filesystem = $filesystem;
         $this->file = $file;
         $this->json = $json;
@@ -153,7 +149,9 @@ class GenerateFeed
     /**
      * @param null $storeCode
      *
-     * @return array
+     * @return void
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Exception
      */
     public function execute($storeCode = null): void
@@ -195,7 +193,7 @@ class GenerateFeed
         $data = [];
         /** @var ProductInterface $product */
         foreach ($productsCollection as $product) {
-            if ($this->isProductAvailable($store, $product->getSku())
+            if ($this->stockRegistry->getStockStatusBySku($product->getSku())
                 && $discountAmount = $this->getDiscountPercent($product)
             ) {
                 $data[] = [
@@ -217,7 +215,6 @@ class GenerateFeed
             }
         }
 
-        dump($data);
         $dir = $this->helper->getFeedPath();
         $this->file->checkAndCreateFolder($dir, 0755);
 
@@ -243,7 +240,6 @@ class GenerateFeed
         $collection = $this->productCollection->create();
         $collection->setStore($store)
             ->addAttributeToSelect('*')
-            //->addAttributeToSelect([ProductInterface::NAME, $this->helper->getManufacturerAttribute()])
             ->addAttributeToFilter('status', ['in' => $this->productStatus->getVisibleStatusIds()])
             ->setVisibility($this->productVisibility->getVisibleInSiteIds())
             ->addMediaGalleryData()
@@ -259,45 +255,6 @@ class GenerateFeed
     public function hasProgressBar(): bool
     {
         return $this->progressBar instanceof ProgressBar;
-    }
-
-    /**
-     * @param StoreInterface $store
-     * @param string $sku
-     *
-     * @return bool
-     * @throws \Magento\Framework\Exception\LocalizedException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     */
-    private function isProductAvailable(StoreInterface $store, string $sku): bool
-    {
-        $stockId = $this->getStockIdByStore($store);
-        foreach ($this->areProductsSalable->execute([$sku], $stockId) as $product) {
-            if ($product->getSku() === $sku) {
-                return $product->isSalable();
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * @param StoreInterface $store
-     *
-     * @return int
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     * @throws \Magento\Framework\Exception\LocalizedException
-     */
-    private function getStockIdByStore(StoreInterface $store): int
-    {
-        $storeId = $store->getId();
-        if (!isset($this->stockId[$storeId])) {
-            $websiteCode = $this->storeManager->getWebsite($store->getWebsiteId())->getCode();
-            $stock = $this->stockResolver->execute(SalesChannelInterface::TYPE_WEBSITE, $websiteCode);
-            $this->stockId[$storeId] = (int)$stock->getStockId();
-        }
-
-        return (int)$this->stockId[$storeId];
     }
 
     /**
