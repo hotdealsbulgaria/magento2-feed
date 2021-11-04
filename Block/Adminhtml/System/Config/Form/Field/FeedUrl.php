@@ -5,7 +5,6 @@ namespace HotDeals\Feed\Block\Adminhtml\System\Config\Form\Field;
 use HotDeals\Feed\Helper\Data;
 use Magento\Backend\Block\Template\Context;
 use Magento\Framework\Data\Form\Element\AbstractElement;
-use Magento\Framework\View\Helper\SecureHtmlRenderer;
 
 /**
  * @SuppressWarnings(PHPMD.LongVariable)
@@ -23,16 +22,14 @@ class FeedUrl extends \Magento\Config\Block\System\Config\Form\Field
      * @param Context $context
      * @param \HotDeals\Feed\Helper\Data $helper
      * @param array $data
-     * @param SecureHtmlRenderer|null $secureRenderer
      */
     public function __construct(
         Context $context,
         Data $helper,
-        array $data = [],
-        ?SecureHtmlRenderer $secureRenderer = null
+        array $data = []
     ) {
         $this->helper = $helper;
-        parent::__construct($context, $data, $secureRenderer);
+        parent::__construct($context, $data);
     }
 
     /**
