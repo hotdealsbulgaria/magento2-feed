@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+  ~ @package      Webcode_Glami
+  ~
+  ~ @author       Webcode, Kostadin Bashev (bashev@webcode.bg)
+  ~ @copyright    Copyright © 2021 GLAMI Inspigroup s.r.o.
+  ~ @license      See LICENSE.txt for license details.
+  -->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+    <group id="hotdeals">
+        <job name="hotdeals_feed_generate" instance="HotDeals\Feed\Cron\GenerateFeed" method="execute">
+            <config_path>hotdeals/general/cron</config_path>
+        </job>
+    </group>
+</config>
