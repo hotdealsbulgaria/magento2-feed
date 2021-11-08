@@ -3,9 +3,9 @@
     "description": "HotDeals Feed Module",
     "type": "magento2-module",
     "require": {
-        "magento/framework": "^101.0",
-        "magento/module-catalog": "^102.0",
-        "magento/module-store": "^100.2"
+        "magento/framework": "~101.0",
+        "magento/module-catalog": "~102.0",
+        "magento/module-store": "~100.2"
     },
     "license": [
         "Open Software License (OSL)"
