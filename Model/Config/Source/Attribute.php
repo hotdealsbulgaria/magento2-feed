@@ -1,10 +1,6 @@
 <?php
 /*
- * @package      Webcode_Feed
- *
- * @author       Kostadin Bashev (bashev@webcode.bg)
- * @copyright    Copyright © 2021 Webcode Ltd. (https://webcode.bg/)
- * @license      Visit https://webcode.bg/license/ for license details.
+ * Copyright (c) 2021. HotDeals Ltd.
  */
 
 namespace HotDeals\Feed\Model\Config\Source;
