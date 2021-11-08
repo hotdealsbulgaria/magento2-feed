@@ -1,6 +1,10 @@
 <?php
 /*
- * Copyright (c) 2021. HotDeals Ltd.
+ * @package      Webcode_Glami
+ *
+ * @author       Webcode, Kostadin Bashev (bashev@webcode.bg)
+ * @copyright    Copyright © 2021 GLAMI Inspigroup s.r.o.
+ * @license      See LICENSE.txt for license details.
  */
 
 namespace HotDeals\Feed\Model\Config\Source;

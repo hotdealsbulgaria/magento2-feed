@@ -1,7 +1,4 @@
 <?php
-/*
- * Copyright (c) 2021. HotDeals Ltd.
- */
 
 namespace HotDeals\Feed\Cron;
 
@@ -23,7 +20,7 @@ class GenerateFeed
      * @return void
      * @throws \Exception
      */
-    public function execute()
+    public function execute(): void
     {
         $this->generateFeed->execute();
     }

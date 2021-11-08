@@ -1,6 +1,10 @@
 <?php
 /*
- * Copyright (c) 2021. HotDeals Ltd.
+ * @package      Webcode_Glami
+ *
+ * @author       Webcode, Kostadin Bashev (bashev@webcode.bg)
+ * @copyright    Copyright © 2021 GLAMI Inspigroup s.r.o.
+ * @license      See LICENSE.txt for license details.
  */
 
 namespace HotDeals\Feed\Service;
@@ -32,9 +36,9 @@ use Symfony\Component\Console\Helper\ProgressBar;
  */
 class GenerateFeed
 {
-    const IMAGE_WIDTH = 1000;
+    public const IMAGE_WIDTH = 1000;
 
-    const IMAGE_HEIGHT = 1000;
+    public const IMAGE_HEIGHT = 1000;
 
     /**
      * Categories Collection
@@ -66,7 +70,7 @@ class GenerateFeed
     /**
      * @var \Magento\Framework\Filesystem
      */
-    private $filesystem;
+    private Filesystem $filesystem;
 
     /**
      * @var \Magento\Framework\Filesystem\Io\File
@@ -76,7 +80,7 @@ class GenerateFeed
     /**
      * @var ProgressBar
      */
-    private $progressBar;
+    private ProgressBar $progressBar;
 
     /**
      * @var StockRegistryInterface
@@ -86,12 +90,12 @@ class GenerateFeed
     /**
      * @var \Magento\Framework\Serialize\Serializer\Json
      */
-    private $json;
+    private Json $json;
 
     /**
      * @var \Magento\Catalog\Model\Product\Visibility
      */
-    private $productVisibility;
+    private Visibility $productVisibility;
 
     /**
      * Product Feed constructor.
@@ -134,7 +138,7 @@ class GenerateFeed
     /**
      * @param \Symfony\Component\Console\Helper\ProgressBar $progressBar
      */
-    public function setProgressBar(ProgressBar $progressBar)
+    public function setProgressBar(ProgressBar $progressBar): void
     {
         $this->progressBar = $progressBar;
     }
@@ -147,7 +151,7 @@ class GenerateFeed
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Exception
      */
-    public function execute($storeCode = null)
+    public function execute($storeCode = null): void
     {
         foreach ($this->storeManager->getStores() as $store) {
             /* @phpstan-ignore-next-line */
@@ -176,7 +180,7 @@ class GenerateFeed
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Exception
      */
-    protected function generateFeed(StoreInterface $store)
+    protected function generateFeed(StoreInterface $store): void
     {
         $productsCollection = $this->getProductsCollection($store->getId());
         if ($this->hasProgressBar()) {
@@ -228,7 +232,7 @@ class GenerateFeed
      * @throws \Magento\Framework\Exception\LocalizedException
      * @throws \Exception
      */
-    protected function getProductsCollection(int $store = 0)
+    protected function getProductsCollection(int $store = 0): object
     {
         $collection = $this->productCollection->create();
         $collection->setStore($store)
@@ -330,7 +334,7 @@ class GenerateFeed
      *
      * @return string
      */
-    private function getProductImage(ProductInterface $product)
+    private function getProductImage(ProductInterface $product): ?string
     {
         $images = $product->getMediaGalleryImages();
         if ($images instanceof Collection) {

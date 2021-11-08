@@ -1,7 +1,4 @@
 <?php
-/*
- * Copyright (c) 2021. HotDeals Ltd.
- */
 
 namespace HotDeals\Feed\Console\Command;
 
@@ -53,7 +50,7 @@ class GenerateFeed extends Command
     /**
      * @inheritDoc
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('hotdeals:feed:generate');
         $this->setDescription('Generate HotDeals Feed for Store');

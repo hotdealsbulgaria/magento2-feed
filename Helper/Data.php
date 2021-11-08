@@ -1,7 +1,4 @@
 <?php
-/*
- * Copyright (c) 2021. HotDeals Ltd.
- */
 
 namespace HotDeals\Feed\Helper;
 
@@ -25,17 +22,17 @@ class Data extends AbstractHelper
     /**
      * Module Name for settings.
      */
-    const MODULE_NAME = 'hotdeals';
+    public const MODULE_NAME = 'hotdeals';
 
     /**
      * Path to module active flag.
      */
-    const XML_PATH_SYNC_ENABLED = 'general/enabled';
+    public const XML_PATH_SYNC_ENABLED = 'general/enabled';
 
     /**
      * Feeds Directory Name
      */
-    const FEED_DIR = 'feed';
+    public const FEED_DIR = 'feed';
 
     /**
      * @var StoreManagerInterface
@@ -90,7 +87,7 @@ class Data extends AbstractHelper
      * @return string
      * @throws Exception
      */
-    public function getConfigData(string $field, $storeId = null)
+    public function getConfigData(string $field, $storeId = null): ?string
     {
         if (!$storeId) {
             $storeId = $this->storeManager->getStore()->getId();
@@ -116,7 +113,7 @@ class Data extends AbstractHelper
     /**
      * @return string
      */
-    private function getFeedFilename()
+    private function getFeedFilename(): ?string
     {
         return 'hd' . ($this->getCurrentStore() ? '-' . $this->getCurrentStore()->getCode() : '') . '.json';
     }
@@ -124,7 +121,7 @@ class Data extends AbstractHelper
     /**
      * @return string
      */
-    public function getFeedUrl()
+    public function getFeedUrl(): ?string
     {
         if ($store = $this->getCurrentStore()) {
             /* @phpstan-ignore-next-line */
@@ -142,7 +139,7 @@ class Data extends AbstractHelper
      *
      * @return StoreInterface|null
      */
-    public function getCurrentStore()
+    public function getCurrentStore(): ?StoreInterface
     {
         try {
             return $this->storeManager->getStore();
@@ -156,7 +153,7 @@ class Data extends AbstractHelper
     /**
      * @throws \Exception
      */
-    public function getManufacturerAttribute()
+    public function getManufacturerAttribute(): ?string
     {
         return $this->getConfigData('general/manufacturer');
     }
@@ -167,7 +164,7 @@ class Data extends AbstractHelper
      *
      * @return void
      */
-    public function logger(string $message, string $type = LogLevel::ALERT)
+    public function logger(string $message, string $type = LogLevel::ALERT): void
     {
         dump($message);
         $this->_logger->log($type, $message, ['module' => self::MODULE_NAME]);

@@ -1,7 +1,4 @@
 <?php
-/*
- * Copyright (c) 2021. HotDeals Ltd.
- */
 
 use Magento\Framework\Component\ComponentRegistrar;
 

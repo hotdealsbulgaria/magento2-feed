@@ -1,7 +1,4 @@
 <?php
-/*
- * Copyright (c) 2021. HotDeals Ltd.
- */
 
 namespace HotDeals\Feed\Block\Adminhtml\System\Config\Form\Field;
 
@@ -43,7 +40,7 @@ class FeedUrl extends \Magento\Config\Block\System\Config\Form\Field
      * @return string
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    protected function _renderScopeLabel(AbstractElement $element)
+    protected function _renderScopeLabel(AbstractElement $element): ?string
     {
         return null;
     }
