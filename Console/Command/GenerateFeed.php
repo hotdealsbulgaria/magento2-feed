@@ -1,4 +1,7 @@
 <?php
+/*
+ * Copyright (c) 2021. HotDeals Ltd.
+ */
 
 namespace HotDeals\Feed\Console\Command;
 
