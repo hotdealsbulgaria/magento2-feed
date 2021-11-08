@@ -1,6 +1,14 @@
 <?xml version="1.0"?>
+<!--
+  ~ @package      Webcode_Feed
+  ~
+  ~ @author       Kostadin Bashev (bashev@webcode.bg)
+  ~ @copyright    Copyright © 2021 Webcode Ltd. (https://webcode.bg/)
+  ~ @license      Visit https://webcode.bg/license/ for license details.
+  -->
+
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
-    <module name="HotDeals_Feed">
+    <module name="HotDeals_Feed" setup_version="0.2.2">
         <sequence>
             <module name="Magento_Catalog"/>
         </sequence>
