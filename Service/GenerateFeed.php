@@ -26,7 +26,6 @@ use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Store\Api\Data\StoreInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LogLevel;
-use Symfony\Component\Console\Helper\ProgressBar;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -76,11 +75,6 @@ class GenerateFeed
      * @var \Magento\Framework\Filesystem\Io\File
      */
     private $file;
-
-    /**
-     * @var ProgressBar
-     */
-    private $progressBar;
 
     /**
      * @var StockRegistryInterface
@@ -133,14 +127,6 @@ class GenerateFeed
         $this->file = $file;
         $this->json = $json;
         $this->helper = $helper;
-    }
-
-    /**
-     * @param \Symfony\Component\Console\Helper\ProgressBar $progressBar
-     */
-    public function setProgressBar(ProgressBar $progressBar)
-    {
-        $this->progressBar = $progressBar;
     }
 
     /**
@@ -237,14 +223,6 @@ class GenerateFeed
             ->addFinalPrice();
 
         return $collection;
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasProgressBar(): bool
-    {
-        return $this->progressBar instanceof ProgressBar;
     }
 
     /**

@@ -75,15 +75,8 @@ class GenerateFeed extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $progressBar = $this->progressBarFactory->create(['output' => $output]);
-        $progressBar->setFormat('%current%/%max% [%bar%] %percent:3s%% %elapsed% %memory:6s%');
-
         $output->writeln(__('<info>%1</info>', 'Start Generating HotDeals Feed...'));
-
-        $progressBar->start();
-        $this->generateFeedService->setProgressBar($progressBar);
         $this->generateFeedService->execute();
-
         $output->write(PHP_EOL);
         $output->writeln(__('<info>%1</info>', 'HotDeals Feed was generated.'));
 
