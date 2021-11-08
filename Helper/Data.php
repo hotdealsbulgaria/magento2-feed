@@ -118,7 +118,7 @@ class Data extends AbstractHelper
      */
     public function getFeedPath(bool $withFilename = false): string
     {
-        return $this->directoryList->getPath(DirectoryList::PUB) . DS . self::FEED_DIR . DS .
+        return $this->directoryList->getPath(DirectoryList::PUB) . self::DS . self::FEED_DIR . self::DS .
                ($withFilename === true ? $this->getFeedFilename() : '');
     }
 
