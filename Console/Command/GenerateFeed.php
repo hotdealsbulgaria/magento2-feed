@@ -75,10 +75,10 @@ class GenerateFeed extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $output->writeln(sprintf('<info>%1</info>', 'Start Generating HotDeals Feed...'));
+        $output->writeln('Start Generating HotDeals Feed...');
         $this->generateFeedService->execute();
         $output->write(PHP_EOL);
-        $output->writeln(sprintf('<info>%1</info>', 'HotDeals Feed was generated.'));
+        $output->writeln('HotDeals Feed was generated.');
 
         return Cli::RETURN_SUCCESS;
     }
