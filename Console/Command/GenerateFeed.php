@@ -67,9 +67,6 @@ class GenerateFeed extends Command
         try {
             $this->state->setAreaCode('adminhtml');
         } catch (LocalizedException $e) {
-            $output->writeln($e->getMessage());
-
-            return Cli::RETURN_FAILURE;
         }
 
         $output->writeln('Start Generating HotDeals Feed...');
