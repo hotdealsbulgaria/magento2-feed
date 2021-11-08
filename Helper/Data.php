@@ -27,6 +27,11 @@ use Psr\Log\LogLevel;
 class Data extends AbstractHelper
 {
     /**
+     * Backword compatibility
+     */
+    const DS = '/';
+
+    /**
      * Module Name for settings.
      */
     const MODULE_NAME = 'hotdeals';
