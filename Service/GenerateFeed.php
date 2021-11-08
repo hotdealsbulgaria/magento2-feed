@@ -22,7 +22,6 @@ use Magento\Framework\Data\Collection;
 use Magento\Framework\Exception\FileSystemException;
 use Magento\Framework\Filesystem;
 use Magento\Framework\Filesystem\Io\File;
-use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Store\Api\Data\StoreInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LogLevel;
@@ -82,9 +81,9 @@ class GenerateFeed
     private $stockRegistry;
 
     /**
-     * @var \Magento\Framework\Serialize\Serializer\Json
+     * @var \Magento\Framework\Json\Encoder
      */
-    private $json;
+    private $jsonEncoder;
 
     /**
      * @var \Magento\Catalog\Model\Product\Visibility
@@ -102,7 +101,7 @@ class GenerateFeed
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Framework\Filesystem $filesystem
      * @param File $file
-     * @param \Magento\Framework\Serialize\Serializer\Json $json
+     * @param \Magento\Framework\Json\Encoder $jsonEncoder
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -114,7 +113,7 @@ class GenerateFeed
         CategoryFactory $categoryFactory,
         Filesystem $filesystem,
         File $file,
-        Json $json,
+        \Magento\Framework\Json\Encoder $jsonEncoder,
         Helper $helper
     ) {
         $this->storeManager = $storeManager;
@@ -125,7 +124,7 @@ class GenerateFeed
         $this->category = $categoryFactory;
         $this->filesystem = $filesystem;
         $this->file = $file;
-        $this->json = $json;
+        $this->jsonEncoder = $jsonEncoder;
         $this->helper = $helper;
     }
 
@@ -196,7 +195,7 @@ class GenerateFeed
 
         try {
             $media = $this->filesystem->getDirectoryWrite(DirectoryList::PUB);
-            $media->writeFile($this->helper->getFeedPath(true), $this->json->serialize($data));
+            $media->writeFile($this->helper->getFeedPath(true), $this->jsonEncoder->encode($data));
         } catch (\Exception $e) {
             $this->helper->logger($e->getMessage());
         }
