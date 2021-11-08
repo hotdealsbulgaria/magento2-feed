@@ -10,45 +10,26 @@
 namespace HotDeals\Feed\Console\Command;
 
 use HotDeals\Feed\Service\GenerateFeed as GenerateFeedService;
-use Magento\Framework\App\State;
 use Magento\Framework\Console\Cli;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\ProgressBarFactory;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class GenerateFeed extends Command
 {
     /**
-     * @var ProgressBarFactory
-     */
-    private $progressBarFactory;
-
-    /**
      * @var GenerateFeedService
      */
     private $generateFeedService;
 
     /**
-     * @var State
-     */
-    private $state;
-
-    /**
      * GenerateFeed constructor.
      *
-     * @param \Symfony\Component\Console\Helper\ProgressBarFactory $progressBarFactory
      * @param \HotDeals\Feed\Service\GenerateFeed $generateFeedService
-     * @param \Magento\Framework\App\State $state
      */
-    public function __construct(
-        ProgressBarFactory $progressBarFactory,
-        GenerateFeedService $generateFeedService,
-        State $state
-    ) {
-        $this->progressBarFactory = $progressBarFactory;
+    public function __construct(GenerateFeedService $generateFeedService)
+    {
         $this->generateFeedService = $generateFeedService;
-        $this->state = $state;
         parent::__construct();
     }
 
