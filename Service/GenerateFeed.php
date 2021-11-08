@@ -183,9 +183,6 @@ class GenerateFeed
     protected function generateFeed(StoreInterface $store)
     {
         $productsCollection = $this->getProductsCollection($store->getId());
-        if ($this->hasProgressBar()) {
-            $this->progressBar->setMaxSteps($productsCollection->getSize());
-        }
 
         $data = [];
         /** @var ProductInterface $product */
@@ -205,10 +202,6 @@ class GenerateFeed
                     'url' => $product->getProductUrl(),
                     'name' => $product->getName()
                 ];
-            }
-
-            if ($this->hasProgressBar()) {
-                $this->progressBar->advance();
             }
         }
 
