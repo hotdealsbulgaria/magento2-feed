@@ -61,7 +61,7 @@ class FeedUrl extends \Magento\Config\Block\System\Config\Form\Field
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    protected function _getElementHtml(AbstractElement $element): string
+    protected function _getElementHtml(AbstractElement $element)
     {
         return $this->helper->getFeedUrl();
     }

@@ -10,10 +10,7 @@
 namespace HotDeals\Feed\Console\Command;
 
 use HotDeals\Feed\Service\GenerateFeed as GenerateFeedService;
-use Magento\Framework\App\Area;
-use Magento\Framework\App\State;
 use Magento\Framework\Console\Cli;
-use Magento\Framework\Exception\LocalizedException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBarFactory;
 use Symfony\Component\Console\Input\InputInterface;
@@ -73,7 +70,7 @@ class GenerateFeed extends Command
      * @return int
      * @throws \Exception
      */
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln('Start Generating HotDeals Feed...');
         $this->generateFeedService->execute();

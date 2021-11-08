@@ -42,7 +42,7 @@ class Attribute
     /**
      * @return array
      */
-    public function toOptionArray(): array
+    public function toOptionArray()
     {
         $options = [['value' => '', 'label' => '']];
         $attributes = $this->attributeRepository->getList($this->searchCriteriaBuilder->create())->getItems();

@@ -81,7 +81,7 @@ class Data extends AbstractHelper
      * @return bool
      * @throws Exception
      */
-    public function isActive($storeId = null): bool
+    public function isActive($storeId = null)
     {
         if (!$storeId) {
             $storeId = $this->storeManager->getStore()->getId();
@@ -99,7 +99,7 @@ class Data extends AbstractHelper
      * @return string
      * @throws Exception
      */
-    public function getConfigData(string $field, $storeId = null)
+    public function getConfigData($field, $storeId = null)
     {
         if (!$storeId) {
             $storeId = $this->storeManager->getStore()->getId();
@@ -116,7 +116,7 @@ class Data extends AbstractHelper
      * @return string
      * @throws \Magento\Framework\Exception\FileSystemException
      */
-    public function getFeedPath(bool $withFilename = false): string
+    public function getFeedPath($withFilename = false)
     {
         return $this->directoryList->getPath(DirectoryList::PUB) . self::DS . self::FEED_DIR . self::DS .
                ($withFilename === true ? $this->getFeedFilename() : '');
@@ -176,7 +176,7 @@ class Data extends AbstractHelper
      *
      * @return void
      */
-    public function logger(string $message, string $type = LogLevel::ALERT)
+    public function logger($message, $type = LogLevel::ALERT)
     {
         dump($message);
         $this->_logger->log($type, $message, ['module' => self::MODULE_NAME]);

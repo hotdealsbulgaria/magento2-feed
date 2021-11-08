@@ -211,7 +211,7 @@ class GenerateFeed
      * @throws \Magento\Framework\Exception\LocalizedException
      * @throws \Exception
      */
-    protected function getProductsCollection(int $store = 0)
+    protected function getProductsCollection($store = 0)
     {
         $collection = $this->productCollection->create();
         $collection->setStore($store)
@@ -230,7 +230,7 @@ class GenerateFeed
      *
      * @return float
      */
-    private function getDiscountPercent(ProductInterface $product): float
+    private function getDiscountPercent(ProductInterface $product)
     {
         $finalPrice = $this->getFinalPrice($product);
         $regularPrice = $this->getPrice($product);
@@ -244,12 +244,12 @@ class GenerateFeed
         return 0;
     }
 
-    private function getFinalPrice(ProductInterface $product): float
+    private function getFinalPrice(ProductInterface $product)
     {
         return (float)$product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
     }
 
-    private function getPrice(ProductInterface $product): float
+    private function getPrice(ProductInterface $product)
     {
         return (float)$product->getPriceInfo()->getPrice('regular_price')->getAmount()->getValue();
     }
@@ -262,7 +262,7 @@ class GenerateFeed
      *
      * @return string
      */
-    private function getProductCategoryPath(ProductInterface $product, StoreInterface $store): string
+    private function getProductCategoryPath(ProductInterface $product, StoreInterface $store)
     {
         $categories = [];
         try {
