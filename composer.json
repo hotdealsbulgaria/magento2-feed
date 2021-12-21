@@ -1,6 +1,6 @@
 {
     "name": "hotdeals/magento2-feed",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "HotDeals Feed Module",
     "type": "magento2-module",
     "require": {
