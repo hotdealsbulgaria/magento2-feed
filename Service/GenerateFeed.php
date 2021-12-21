@@ -233,7 +233,7 @@ class GenerateFeed
         if ($regularPrice > $finalPrice) {
             $discount = ($regularPrice - $finalPrice)/$regularPrice*100;
 
-            return round($discount);
+            return round($discount, 2);
         }
 
         return 0;
@@ -241,12 +241,12 @@ class GenerateFeed
 
     private function getFinalPrice(ProductInterface $product)
     {
-        return (float)$product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
+        return round($product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue(), 2);
     }
 
     private function getPrice(ProductInterface $product)
     {
-        return (float)$product->getPriceInfo()->getPrice('regular_price')->getAmount()->getValue();
+        return round($product->getPriceInfo()->getPrice('regular_price')->getAmount()->getValue(), 2);
     }
 
     /**
