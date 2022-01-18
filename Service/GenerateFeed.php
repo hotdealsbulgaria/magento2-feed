@@ -236,7 +236,7 @@ class GenerateFeed
             ->addAttributeToFilter('status', ['in' => $this->productStatus->getVisibleStatusIds()])
             ->setVisibility($this->productVisibility->getVisibleInSiteIds())
             ->addMediaGalleryData()
-            ->addAttributeToFilter('is_saleable', 1)
+            ->addAttributeToFilter('is_saleable', ['eq' =>  1])
             ->addFinalPrice();
 
         return $collection;
